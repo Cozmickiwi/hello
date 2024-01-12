@@ -2,6 +2,7 @@ body {
   width: 100vw;
   height: 100vh;
   margin: 0;
+  overflow: hidden;
 }
 
 #button1 {
@@ -9,4 +10,15 @@ body {
   border-radius: 5px;
   background-color: skyblue;
   box-shadow: 2px 2px black;
+  scale: 1.5;
+  position: relative;
+  left: 50px;
+  top: 30px;
+  display: flex;
+}
+
+h2 {
+  position: absolute;
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
 }

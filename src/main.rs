@@ -15,20 +15,20 @@ fn main() {
 fn handle_connection(mut stream: TcpStream) {
     let buf_reader = BufReader::new(&mut stream);
     let request_line = buf_reader.lines().next().unwrap().unwrap();
-    let (status_line, filename) = if request_line == "GET / HTTP/1.1" {
-        ("HTTP/1.1 200 OK", "frontend/index.html")
+    let (status_line, filename, content_type) = if request_line == "GET / HTTP/1.1" {
+        ("HTTP/1.1 200 OK", "frontend/index.html", "text/html")
     } else if request_line == "GET /styles.css HTTP/1.1" {
-        ("HTTP/1.1 200 OK", "frontend/styles.css")
+        ("HTTP/1.1 200 OK", "frontend/styles.css", "text/css")
     } else if request_line == "GET /script.js HTTP/1.1" {
-        ("HTTP/1.1 200 OK", "frontend/script.js")
+        ("HTTP/1.1 200 OK", "frontend/script.js", "application/javascript")
     } else {
-        ("HTTP/1.1 404 NOT FOUND", "frontend/404.html")
+        ("HTTP/1.1 404 NOT FOUND", "frontend/404.html", "text/html")
     };
     let contents = fs::read_to_string(filename).unwrap();
-    let length = contents.len();
+    //let length = contents.len();
     let response = format!(
         "{status_line}\r\n\
-        Content-Length: {length}\r\n\r\n
+        Content-Type: {content_type}\r\n\r\n
         {contents}"
     );
     stream.write_all(response.as_bytes()).unwrap();
