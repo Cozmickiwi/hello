@@ -6,13 +6,20 @@ use std::{
     time::Duration,
 };
 
+use local_ip_address::local_ip;
+
 use hello::ThreadPool;
 
 fn main() {
-    let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
-    let pool = ThreadPool::new(4);
+    let add = local_ip().unwrap().to_string();
+    let add_str = format!("{add}:7878");
+    println!("{add_str}");
+    let listener = TcpListener::bind(&add_str).unwrap();
+    let pool = ThreadPool::new(10);
     for stream in listener.incoming().take(10) {
         let stream = stream.unwrap();
+        let peer_addr = stream.peer_addr().unwrap();
+        println!("Incoming connection from: {}", peer_addr);
         pool.execute(|| {
             handle_connection(stream);
         });
