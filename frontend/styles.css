@@ -21,4 +21,12 @@ h2 {
   position: absolute;
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
+  user-select: none;
+}
+
+#button1:active {
+  left: 51px;
+  top: 31px;
+  box-shadow: 1px 1px black;
+  scale: 1.48;
 }
